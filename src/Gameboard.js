@@ -61,6 +61,8 @@ export default class Gameboard {
         } else {
             this.misses.push(location);
         }
+
+        return this.allSunk();
     }
 
     allSunk() {
