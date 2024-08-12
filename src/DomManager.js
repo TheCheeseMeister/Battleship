@@ -12,6 +12,7 @@ export default class DomManager {
     winner() {
         let text = document.createElement("h3");
         text.textContent = "We have ourselves a winner!";
+        text.setAttribute("id", "win");
 
         const header = document.getElementById("header");
 
@@ -78,7 +79,7 @@ export default class DomManager {
 
                 temp.value = [i, j];
 
-                if (player.real == false) {
+                if (player.real == false && this.win == false) {
                     temp.addEventListener("click", () => {
                         if (this.playerTurn) {
                             this.win = player.board.receiveAttack(temp.value);
@@ -139,7 +140,7 @@ export default class DomManager {
                         }
                     }
 
-                    if (!color && !missColor && player.real == false) {
+                    if (!color && !missColor && player.real == false && this.win == false) {
                         temp.addEventListener("click", () => {
                             if (this.playerTurn) {
                                 this.win = player.board.receiveAttack(temp.value);
@@ -150,7 +151,9 @@ export default class DomManager {
                                 this.resetContainer();
                                 this.updateBoards();
 
-                                this.cpuTurn();
+                                if (!this.win) {
+                                    this.cpuTurn();
+                                }
                             }
                         });
                     } else if (color) {
@@ -166,6 +169,8 @@ export default class DomManager {
             boardContainer.appendChild(grid);
         }
 
-        this.playerTurn = !this.playerTurn;
+        if (!this.win) {
+            this.playerTurn = !this.playerTurn;
+        }
     }
 }
